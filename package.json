@@ -1,0 +1,8 @@
+{
+  "name": "mcq-self-hosted",
+  "private": true,
+  "scripts": {
+    "dev": "python dev.py",
+    "build": "npm run build --prefix frontend"
+  }
+}

@@ -1,0 +1,26 @@
+services:
+  app:
+    build: .
+    env_file: .env
+    environment:
+      MCQ_DATA_DIR: /data
+    volumes:
+      - mcq-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/config',timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  proxy:
+    image: nginx:stable-alpine
+    ports:
+      - "${MCQ_BIND_ADDRESS:-127.0.0.1}:${MCQ_PORT:-8080}:80"
+    volumes:
+      - ./deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: unless-stopped
+volumes:
+  mcq-data:
