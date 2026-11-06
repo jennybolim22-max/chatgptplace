@@ -1,9 +1,9 @@
-# Render Blueprint. Paid service + persistent disk; review costs before deployment.
+# Render free test deployment. Local files are ephemeral.
 services:
   - type: web
     name: mcq-web
     runtime: docker
-    plan: starter
+    plan: free
     region: singapore
     numInstances: 1
     dockerfilePath: ./Dockerfile
@@ -22,7 +22,3 @@ services:
         value: "50"
       - key: MCQ_ACCESS_CODE
         generateValue: true
-    disk:
-      name: mcq-data
-      mountPath: /data
-      sizeGB: 1
